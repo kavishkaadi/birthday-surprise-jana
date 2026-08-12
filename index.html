@@ -7,6 +7,8 @@
   <meta name="description" content="A private birthday surprise made with love." />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="preload" href="assets/final-photo-optimized.jpg" as="image" type="image/jpeg" />
+  <link rel="preload" href="assets/photo1.jpg" as="image" type="image/jpeg" />
+  <link rel="preload" href="assets/photo2.jpg" as="image" type="image/jpeg" />
   <title>For Janani ❤️</title>
   <style>
     :root{
@@ -133,7 +135,6 @@
     <div class="section" id="memories">
       <div class="eyebrow">Chapter 01</div>
       <h2>Some moments I never want to forget.</h2>
-      <p>Replace these placeholders with your own photos before publishing.</p>
       <div class="memory-grid" id="memoryGrid"></div>
     </div>
 
@@ -283,7 +284,7 @@ function renderMemories(){
   const g=$('#memoryGrid'); g.innerHTML='';
   CONFIG.memories.forEach((m,i)=>{
     const el=document.createElement('article'); el.className='card memory-card';
-    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}" loading="lazy" decoding="async"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
+    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}" decoding="async"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
     const img=el.querySelector('img'); const ph=el.querySelector('.memory-placeholder');
     img.onload=()=>ph.style.display='none'; img.onerror=()=>img.style.display='none';
     g.appendChild(el);
@@ -321,15 +322,16 @@ function answerQuiz(idx,btn){
 
 $('#quizNext').onclick=()=>{
   if(state.quizIndex<CONFIG.quiz.length-1){ state.quizIndex++; renderQuiz(); saveProgress(); }
-  else unlockFinal();
+  else unlockFinal(true);
 };
 
-function unlockFinal(){
+function unlockFinal(continueToBonus=false){
   state.unlocked=true; saveProgress();
   $('#unlockTitle').textContent='ACCESS GRANTED ❤️';
   $('#unlockText').textContent=`Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.`;
   $('#unlockCard').innerHTML=`<div style="font-size:3rem">🔓</div><h2>ACCESS GRANTED ❤️</h2><p>Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.</p><button class="btn" onclick="goTo('voice')">Open it</button>`;
   $('#finalContent').classList.remove('locked'); confettiBurst(); miniHearts(24);
+  if(continueToBonus) setTimeout(()=>goTo('ask'),450);
 }
 
 function renderAssistant(){
