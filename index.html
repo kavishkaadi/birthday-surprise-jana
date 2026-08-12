@@ -195,7 +195,7 @@
 
       <div class="section center" id="finale">
         <div class="final-photo" id="finalPhotoWrap">
-          <img id="finalPhoto" alt="Our favorite memory"/>
+          <img id="finalPhoto" alt="Our favorite memory" loading="lazy" decoding="async"/>
           <div class="final-placeholder" id="finalPlaceholder">Replace this with your favorite photo together ❤️</div>
         </div>
         <div style="height:22px"></div>
@@ -251,7 +251,7 @@ const CONFIG = {
   ],
   finalLetter: `Happy Birthday, Princess ❤️\n\nI wanted to give you something that felt a little more personal than a normal message. So I made this small world for you — with code, memories, and a lot of thought.\n\nThank you for the laughs, the conversations, the memories, and all the little moments that somehow became important to me.\n\nI hope this year brings you the kind of happiness that stays, the kind of peace you do not have to force, and the kind of success that makes you proud of yourself.\n\nWhatever happens, I am grateful that I got to know you and share part of this journey with you.\n\nHappy Birthday, once again. ❤️\n\n— Adithya`,
   finalMessage: 'No matter where life takes us, I’ll always be grateful that our paths crossed.',
-  finalPhoto: 'assets/final-photo.jpg',
+  finalPhoto: 'assets/final-photo-optimized.jpg',
   audioFile: 'assets/voice-message.m4a',
   showAssistant: true,
   showAudio: true,
@@ -282,7 +282,7 @@ function renderMemories(){
   const g=$('#memoryGrid'); g.innerHTML='';
   CONFIG.memories.forEach((m,i)=>{
     const el=document.createElement('article'); el.className='card memory-card';
-    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
+    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}" loading="lazy" decoding="async"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
     const img=el.querySelector('img'); const ph=el.querySelector('.memory-placeholder');
     img.onload=()=>ph.style.display='none'; img.onerror=()=>img.style.display='none';
     g.appendChild(el);
