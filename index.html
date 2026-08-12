@@ -6,8 +6,7 @@
   <meta name="theme-color" content="#0b0810" />
   <meta name="description" content="A private birthday surprise made with love." />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="preload" href="assets/final-photo-optimized.jpg" as="image" type="image/jpeg" />
-  <link rel="preload" href="assets/photo1.jpg" as="image" type="image/jpeg" />
+  <link rel="preload" href="assets/photo1-optimized.jpg" as="image" type="image/jpeg" fetchpriority="high" />
   <link rel="preload" href="assets/photo2.jpg" as="image" type="image/jpeg" />
   <title>For Janani ❤️</title>
   <style>
@@ -220,7 +219,7 @@ const CONFIG = {
   yourName: 'Adithya',
   heroSubtitle: 'Today is about you. So I made a tiny place on the internet that belongs only to us.',
   memories: [
-    { photo: 'assets/photo1.jpg', title: 'Where Our Story Began', text: 'Our very first Messenger conversation — a simple chat that became the beginning of something so special to me.' },
+    { photo: 'assets/photo1-optimized.jpg', title: 'Where Our Story Began', text: 'Our very first Messenger conversation — a simple chat that became the beginning of something so special to me.' },
     { photo: 'assets/photo2.jpg', title: 'Our First WhatsApp Chat', text: 'Another little beginning I will always remember — the conversation that brought us closer, one message at a time.' }
   ],
   reasons: [
@@ -277,14 +276,14 @@ function applyConfig(){
   $('#voiceAudio').src = CONFIG.audioFile;
   if(!CONFIG.showAudio) $('#voice').classList.add('hidden');
   if(!CONFIG.showAssistant) $('#ask').classList.add('hidden');
-  renderMemories(); renderReasons(); renderQuiz(); renderAssistant(); loadFinalPhoto();
+  renderMemories(); renderReasons(); renderQuiz(); renderAssistant();
 }
 
 function renderMemories(){
   const g=$('#memoryGrid'); g.innerHTML='';
   CONFIG.memories.forEach((m,i)=>{
     const el=document.createElement('article'); el.className='card memory-card';
-    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}" decoding="async"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
+    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}" decoding="async" fetchpriority="high"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
     const img=el.querySelector('img'); const ph=el.querySelector('.memory-placeholder');
     img.onload=()=>ph.style.display='none'; img.onerror=()=>img.style.display='none';
     g.appendChild(el);
@@ -327,6 +326,7 @@ $('#quizNext').onclick=()=>{
 
 function unlockFinal(continueToBonus=false){
   state.unlocked=true; saveProgress();
+  loadFinalPhoto();
   $('#unlockTitle').textContent='ACCESS GRANTED ❤️';
   $('#unlockText').textContent=`Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.`;
   $('#unlockCard').innerHTML=`<div style="font-size:3rem">🔓</div><h2>ACCESS GRANTED ❤️</h2><p>Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.</p><button class="btn" onclick="goTo('voice')">Open it</button>`;
