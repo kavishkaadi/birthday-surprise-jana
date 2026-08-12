@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0810" />
+  <meta name="description" content="A private birthday surprise made with love." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>For Janani ❤️</title>
+  <style>
+    :root{
+      --bg:#09070c; --panel:#121018; --soft:#1c1723; --text:#fff8fb;
+      --muted:#bfaeb8; --accent:#ff4f87; --accent2:#ff9fba; --gold:#ffd48a;
+      --shadow:0 20px 70px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:
+      radial-gradient(circle at 20% 0%,rgba(255,79,135,.17),transparent 34%),
+      radial-gradient(circle at 90% 22%,rgba(255,212,138,.09),transparent 30%),
+      linear-gradient(180deg,#0b0810 0%,#09070c 45%,#08070a 100%);
+      min-height:100vh;overflow-x:hidden}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .screen{min-height:100svh;padding:28px 18px 42px;display:none;align-items:center;justify-content:center;position:relative}
+    .screen.active{display:flex}
+    .wrap{width:min(100%,760px);margin:auto}
+    .glass{background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow);border-radius:28px}
+    .center{text-align:center}
+    .eyebrow{letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);font-size:.72rem;font-weight:800}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(2.3rem,10vw,5.5rem);line-height:.96;letter-spacing:-.04em}
+    h2{font-size:clamp(1.9rem,8vw,3.6rem);line-height:1.02;letter-spacing:-.03em}
+    p{line-height:1.7;color:var(--muted)}
+    .btn{border:0;border-radius:999px;padding:15px 22px;font-weight:800;color:#170710;background:linear-gradient(135deg,#fff,#ffd9e5 45%,#ff8fb3);box-shadow:0 10px 35px rgba(255,79,135,.23);transition:.25s transform,.25s filter}
+    .btn:active{transform:scale(.97)}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.14);box-shadow:none}
+    .btn.small{padding:11px 16px;font-size:.92rem}
+    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .intro-card{padding:36px 22px}
+    .tiny-heart{font-size:3rem;animation:pulse 1.5s infinite}
+    @keyframes pulse{50%{transform:scale(1.12);filter:drop-shadow(0 0 20px rgba(255,79,135,.5))}}
+    .terminal{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;text-align:left;padding:22px;border-radius:22px;background:#070609;border:1px solid rgba(255,255,255,.08);color:#f5dce5;min-height:220px;box-shadow:inset 0 0 45px rgba(255,79,135,.05)}
+    .terminal .line{opacity:0;transform:translateY(8px);animation:lineIn .35s forwards}
+    @keyframes lineIn{to{opacity:1;transform:none}}
+    .progress{height:9px;border-radius:999px;background:#1a151d;overflow:hidden;margin-top:18px}
+    .progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .4s ease}
+    .hero-heart{font-size:4.5rem;margin-bottom:8px}
+    .gradient-text{background:linear-gradient(135deg,#fff 5%,#ffd8e5 40%,#ff759f 75%,#ffd48a);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section{padding:22px 0 50px}
+    .card{padding:20px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.09)}
+    .memory-grid{display:grid;grid-template-columns:1fr;gap:16px}
+    .memory-card{overflow:hidden;padding:0}
+    .memory-visual{min-height:240px;background:linear-gradient(135deg,#25131d,#17101c);display:grid;place-items:center;overflow:hidden;position:relative}
+    .memory-visual img{width:100%;height:auto;object-fit:contain;display:block;position:relative;z-index:1}
+    .memory-placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:#e7cdd6;background:radial-gradient(circle at 30% 20%,rgba(255,79,135,.24),transparent 36%),linear-gradient(135deg,#24131d,#120f17)}
+    .memory-body{padding:18px}
+    .memory-no{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent2);font-weight:800}
+    .reason-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .reason{min-height:145px;display:grid;place-items:center;text-align:center;padding:18px;position:relative;overflow:hidden}
+    .reason .front,.reason .back{transition:.35s;backface-visibility:hidden}
+    .reason .back{position:absolute;inset:0;padding:18px;display:grid;place-items:center;transform:rotateY(180deg);background:linear-gradient(135deg,rgba(255,79,135,.2),rgba(255,212,138,.08));color:#fff}
+    .reason.flipped .front{transform:rotateY(180deg)}
+    .reason.flipped .back{transform:none}
+    .quiz-box{padding:22px}
+    .options{display:grid;gap:10px;margin:18px 0}
+    .option{padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);color:#fff;text-align:left}
+    .option.correct{border-color:#79e3ad;background:rgba(61,185,128,.15)}
+    .option.wrong{border-color:#ff738f;background:rgba(255,79,105,.12)}
+    .status{min-height:28px;color:#f8c5d4;font-weight:700}
+    .assistant{padding:22px}
+    .chat{display:grid;gap:10px;max-height:330px;overflow:auto;padding-right:2px}
+    .bubble{max-width:86%;padding:12px 14px;border-radius:18px;line-height:1.55}
+    .bubble.bot{background:#1b1520;border:1px solid rgba(255,255,255,.08)}
+    .bubble.user{margin-left:auto;background:linear-gradient(135deg,#ff5c8f,#d94878);color:white}
+    .quickqs{display:flex;gap:8px;overflow:auto;padding:8px 0 2px}
+    .chip{white-space:nowrap;border:1px solid rgba(255,255,255,.11);background:#130f16;color:#f7e9ee;border-radius:999px;padding:9px 12px}
+    .chat-input{display:flex;gap:8px;margin-top:12px}
+    .chat-input input{flex:1;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:#0b090e;color:#fff;padding:12px 13px;outline:none}
+    .locked{filter:blur(5px);opacity:.5;pointer-events:none;user-select:none}
+    .unlock{padding:25px;text-align:center}
+    .audio-card{padding:25px;text-align:center}
+    audio{width:100%;margin-top:12px}
+    .letter{padding:26px;min-height:250px}
+    .typewriter{white-space:pre-wrap;line-height:1.85;color:#f9edf1;font-family:Georgia,'Times New Roman',serif;font-size:1.08rem}
+    .final-photo{aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:linear-gradient(135deg,#28151f,#140f17);position:relative;display:grid;place-items:center}
+    .final-photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .final-placeholder{position:absolute;inset:0;display:grid;place-items:center;padding:25px;text-align:center;color:#ead2da}
+    .footer-note{text-align:center;font-size:.82rem;color:#806f78;margin-top:24px}
+    .topbar{position:fixed;z-index:30;top:0;left:0;right:0;padding:10px 12px;display:flex;justify-content:flex-end;pointer-events:none}
+    .topbar button{pointer-events:auto;opacity:.72}
+    .floating-heart{position:fixed;bottom:-30px;z-index:100;pointer-events:none;animation:floatUp linear forwards}
+    @keyframes floatUp{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+    canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
+    .hidden{display:none!important}
+    @media(min-width:680px){.memory-grid{grid-template-columns:repeat(2,1fr)}.reason-grid{grid-template-columns:repeat(3,1fr)}.screen{padding:42px 22px 58px}}
+  </style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="topbar"><button id="restartBtn" class="btn secondary small">Restart</button></div>
+
+<section id="intro" class="screen active">
+  <div class="wrap center">
+    <div class="glass intro-card">
+      <div class="tiny-heart">❤️</div>
+      <div class="eyebrow">Private surprise</div>
+      <h2 style="margin-top:10px">I made something<br>only for you.</h2>
+      <p>Not because a normal birthday wish was enough… but because you deserve something made with time, thought, and love.</p>
+      <button class="btn" id="beginBtn">Begin your surprise</button>
+    </div>
+  </div>
+</section>
+
+<section id="boot" class="screen">
+  <div class="wrap">
+    <div class="terminal" id="terminal"></div>
+    <div class="progress"><span id="bootProgress"></span></div>
+  </div>
+</section>
+
+<section id="main" class="screen">
+  <div class="wrap">
+    <div class="section center" style="padding-top:26px">
+      <div class="hero-heart">🎂</div>
+      <div class="eyebrow">A little world made for you</div>
+      <h1 class="gradient-text" id="heroTitle">Happy Birthday, Janani ❤️</h1>
+      <p id="heroSub">Today is about you. So I made a tiny place on the internet that belongs only to us.</p>
+      <div class="row"><button class="btn" onclick="goTo('memories')">Open the memories</button></div>
+    </div>
+
+    <div class="section" id="memories">
+      <div class="eyebrow">Chapter 01</div>
+      <h2>Some moments I never want to forget.</h2>
+      <p>Replace these placeholders with your own photos before publishing.</p>
+      <div class="memory-grid" id="memoryGrid"></div>
+    </div>
+
+    <div class="section" id="reasons">
+      <div class="eyebrow">Chapter 02</div>
+      <h2>Why you’re special to me.</h2>
+      <p>Tap every card. Some things are better discovered one by one.</p>
+      <div class="reason-grid" id="reasonGrid"></div>
+    </div>
+
+    <div class="section" id="quiz">
+      <div class="eyebrow">Chapter 03</div>
+      <h2>How well do you know us? 😏</h2>
+      <div class="glass quiz-box">
+        <div id="quizCount" class="eyebrow"></div>
+        <h3 id="quizQuestion" style="font-size:1.45rem;margin-top:10px"></h3>
+        <div class="options" id="quizOptions"></div>
+        <div class="status" id="quizStatus"></div>
+        <button id="quizNext" class="btn hidden">Next question</button>
+      </div>
+    </div>
+
+    <div class="section" id="ask">
+      <div class="eyebrow">Bonus</div>
+      <h2>Ask Adithya ❤️</h2>
+      <p>A tiny “AI” made just for this page. It only knows one important subject: us.</p>
+      <div class="glass assistant">
+        <div class="chat" id="chat"><div class="bubble bot">Hi Janani 👋 Ask me something about Adithya, you, or your memories together.</div></div>
+        <div class="quickqs" id="quickQs"></div>
+        <div class="chat-input"><input id="chatInput" placeholder="Type something…"/><button class="btn small" id="sendChat">Send</button></div>
+      </div>
+    </div>
+
+    <div class="section" id="unlockSection">
+      <div class="glass unlock" id="unlockCard">
+        <div style="font-size:3rem">🔒</div>
+        <h2 id="unlockTitle">One last surprise is locked.</h2>
+        <p id="unlockText">Finish the quiz to unlock it.</p>
+      </div>
+    </div>
+
+    <div id="finalContent" class="locked">
+      <div class="section" id="voice">
+        <div class="eyebrow">Final chapter</div>
+        <h2>Put your headphones on 🎧</h2>
+        <div class="glass audio-card">
+          <div style="font-size:3rem">🎙️</div>
+          <h3>A message from me</h3>
+          <p id="audioHint">A special voice message, recorded just for you ❤️</p>
+          <audio id="voiceAudio" controls preload="metadata"></audio>
+          <button class="btn secondary small" id="skipAudio">Continue to my letter</button>
+        </div>
+      </div>
+
+      <div class="section" id="letterSection">
+        <div class="eyebrow">For you</div>
+        <h2>One thing I wanted to say properly.</h2>
+        <div class="glass letter"><div id="letterText" class="typewriter"></div></div>
+      </div>
+
+      <div class="section center" id="finale">
+        <div class="final-photo" id="finalPhotoWrap">
+          <img id="finalPhoto" alt="Our favorite memory"/>
+          <div class="final-placeholder" id="finalPlaceholder">Replace this with your favorite photo together ❤️</div>
+        </div>
+        <div style="height:22px"></div>
+        <div class="eyebrow">And finally…</div>
+        <h1 class="gradient-text" style="font-size:clamp(2.4rem,11vw,5.6rem)" id="finalTitle">Happy Birthday, Janani ❤️</h1>
+        <p id="finalMessage">No matter where life takes us, I’ll always be grateful that our paths crossed.</p>
+        <div class="row"><button class="btn" id="finalConfetti">One more time 🎉</button><button class="btn secondary" id="replayLetter">Replay my letter</button></div>
+        <div class="footer-note" id="signature">Made with ❤️ and code by Adithya</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ==========================
+// EASY CUSTOMIZATION SECTION
+// ==========================
+const CONFIG = {
+  herName: 'Janani',
+  yourName: 'Adithya',
+  heroSubtitle: 'Today is about you. So I made a tiny place on the internet that belongs only to us.',
+  memories: [
+    { photo: 'assets/photo1.jpg', title: 'Where Our Story Began', text: 'Our very first Messenger conversation — a simple chat that became the beginning of something so special to me.' },
+    { photo: 'assets/photo2.jpg', title: 'Our First WhatsApp Chat', text: 'Another little beginning I will always remember — the conversation that brought us closer, one message at a time.' }
+  ],
+  reasons: [
+    'Your smile can change my whole mood.',
+    'The way you care, even in small ways.',
+    'Our random and stupid conversations 😂',
+    'How normal moments become memories with you.',
+    'Your personality — the parts everyone sees and the parts only I know.',
+    'Simply because you are you. ❤️'
+  ],
+  quiz: [
+    { q: 'What is the best kind of conversation we have?', options: ['Very serious only', 'Random + funny + everything', 'Only good morning texts', 'No talking 😅'], answer: 1 },
+    { q: 'Who is the birthday queen today?', options: ['Adithya', 'Janani 👑', 'The phone', 'No idea'], answer: 1 },
+    { q: 'What do I love most about us?', options: ['Only the big moments', 'The little moments we share ❤️', 'Being serious all the time', 'Nothing special 😒'], answer: 1 },
+    { q: 'What do I want most for our love?', options: ['More arguments 😂', 'To keep making beautiful memories together ❤️', 'Less talking', 'To forget everything'], answer: 1 },
+    { q: 'Final question: are you ready for one last surprise?', options: ['No 😒', 'Maybe', 'YES ❤️', 'Ask me tomorrow'], answer: 2 }
+  ],
+  assistantQuickQuestions: [
+    'What does Adithya love most about me?',
+    'What is his birthday wish for me?',
+    'Why did he build this?',
+    'Tell me something cute'
+  ],
+  assistantAnswers: [
+    { keys:['love most','love about','most about me'], answer:'He would probably say it is not just one thing. It is your smile, your personality, the way you care, and the little memories that only the two of you understand. ❤️' },
+    { keys:['birthday wish','wish for me'], answer:'His wish is that this new year of your life brings you peace, happiness, growth, beautiful memories, and reasons to smile even on ordinary days. 🎂❤️' },
+    { keys:['why','build this','made this'], answer:'Because a normal “Happy Birthday” message felt too ordinary. Building things is what he knows — so he turned that into something personal for you. 💻❤️' },
+    { keys:['cute','something cute'], answer:'Somewhere in this code, there is a developer who spent way too much time making sure you smile when you open this. 😌❤️' },
+    { keys:['miss','miss me'], answer:'If you are asking that… yes. Probably more than he says. ❤️' }
+  ],
+  finalLetter: `Happy Birthday, Princess ❤️\n\nI wanted to give you something that felt a little more personal than a normal message. So I made this small world for you — with code, memories, and a lot of thought.\n\nThank you for the laughs, the conversations, the memories, and all the little moments that somehow became important to me.\n\nI hope this year brings you the kind of happiness that stays, the kind of peace you do not have to force, and the kind of success that makes you proud of yourself.\n\nWhatever happens, I am grateful that I got to know you and share part of this journey with you.\n\nHappy Birthday, once again. ❤️\n\n— Adithya`,
+  finalMessage: 'No matter where life takes us, I’ll always be grateful that our paths crossed.',
+  finalPhoto: 'assets/final-photo.jpg',
+  audioFile: 'assets/voice-message.m4a',
+  showAssistant: true,
+  showAudio: true,
+  saveProgress: true
+};
+
+const $ = (s)=>document.querySelector(s);
+const $$ = (s)=>[...document.querySelectorAll(s)];
+const state = { quizIndex:0, quizScore:0, quizAnswered:false, unlocked:false };
+
+function showScreen(id){ $$('.screen').forEach(x=>x.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0); }
+function goTo(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+function applyConfig(){
+  document.title = `For ${CONFIG.herName} ❤️`;
+  $('#heroTitle').textContent = `Happy Birthday, ${CONFIG.herName} ❤️`;
+  $('#heroSub').textContent = CONFIG.heroSubtitle;
+  $('#finalTitle').textContent = `Happy Birthday, ${CONFIG.herName} ❤️`;
+  $('#finalMessage').textContent = CONFIG.finalMessage;
+  $('#signature').textContent = `Made with ❤️ and code by ${CONFIG.yourName}`;
+  $('#voiceAudio').src = CONFIG.audioFile;
+  if(!CONFIG.showAudio) $('#voice').classList.add('hidden');
+  if(!CONFIG.showAssistant) $('#ask').classList.add('hidden');
+  renderMemories(); renderReasons(); renderQuiz(); renderAssistant(); loadFinalPhoto();
+}
+
+function renderMemories(){
+  const g=$('#memoryGrid'); g.innerHTML='';
+  CONFIG.memories.forEach((m,i)=>{
+    const el=document.createElement('article'); el.className='card memory-card';
+    el.innerHTML=`<div class="memory-visual"><div class="memory-placeholder">📸<br>Add <b>photo${i+1}.jpg</b> to the assets folder</div><img alt="Memory ${i+1}" src="${m.photo}"></div><div class="memory-body"><div class="memory-no">Memory ${String(i+1).padStart(2,'0')}</div><h3 style="margin:7px 0 8px">${escapeHTML(m.title)}</h3><p style="margin:0">${escapeHTML(m.text)}</p></div>`;
+    const img=el.querySelector('img'); const ph=el.querySelector('.memory-placeholder');
+    img.onload=()=>ph.style.display='none'; img.onerror=()=>img.style.display='none';
+    g.appendChild(el);
+  });
+}
+
+function renderReasons(){
+  const g=$('#reasonGrid'); g.innerHTML='';
+  CONFIG.reasons.forEach((r,i)=>{
+    const el=document.createElement('button'); el.className='card reason'; el.setAttribute('aria-label','Reveal reason');
+    el.innerHTML=`<div class="front"><div style="font-size:2rem">💗</div><b>Tap to reveal</b><div style="margin-top:6px;color:var(--muted)">Reason ${i+1}</div></div><div class="back">${escapeHTML(r)}</div>`;
+    el.onclick=()=>el.classList.toggle('flipped'); g.appendChild(el);
+  });
+}
+
+function renderQuiz(){
+  const item=CONFIG.quiz[state.quizIndex];
+  $('#quizCount').textContent=`Question ${state.quizIndex+1} of ${CONFIG.quiz.length}`;
+  $('#quizQuestion').textContent=item.q; $('#quizStatus').textContent=''; $('#quizNext').classList.add('hidden'); state.quizAnswered=false;
+  const box=$('#quizOptions'); box.innerHTML='';
+  item.options.forEach((opt,idx)=>{
+    const b=document.createElement('button'); b.className='option'; b.textContent=opt;
+    b.onclick=()=>answerQuiz(idx,b); box.appendChild(b);
+  });
+}
+
+function answerQuiz(idx,btn){
+  if(state.quizAnswered) return; state.quizAnswered=true;
+  const item=CONFIG.quiz[state.quizIndex];
+  $$('.option').forEach((b,i)=>{ if(i===item.answer)b.classList.add('correct'); else if(i===idx)b.classList.add('wrong'); b.disabled=true; });
+  if(idx===item.answer){ state.quizScore++; $('#quizStatus').textContent='Correct ❤️'; miniHearts(8); }
+  else $('#quizStatus').textContent='Almost 😄 I still love the confidence.';
+  $('#quizNext').textContent=state.quizIndex===CONFIG.quiz.length-1?'Unlock final surprise':'Next question'; $('#quizNext').classList.remove('hidden');
+}
+
+$('#quizNext').onclick=()=>{
+  if(state.quizIndex<CONFIG.quiz.length-1){ state.quizIndex++; renderQuiz(); saveProgress(); }
+  else unlockFinal();
+};
+
+function unlockFinal(){
+  state.unlocked=true; saveProgress();
+  $('#unlockTitle').textContent='ACCESS GRANTED ❤️';
+  $('#unlockText').textContent=`Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.`;
+  $('#unlockCard').innerHTML=`<div style="font-size:3rem">🔓</div><h2>ACCESS GRANTED ❤️</h2><p>Final surprise unlocked — score ${state.quizScore}/${CONFIG.quiz.length}.</p><button class="btn" onclick="goTo('voice')">Open it</button>`;
+  $('#finalContent').classList.remove('locked'); confettiBurst(); miniHearts(24);
+}
+
+function renderAssistant(){
+  const q=$('#quickQs'); q.innerHTML='';
+  CONFIG.assistantQuickQuestions.forEach(t=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=t; b.onclick=()=>askBot(t); q.appendChild(b); });
+}
+function addBubble(text,type){ const b=document.createElement('div'); b.className='bubble '+type; b.textContent=text; $('#chat').appendChild(b); $('#chat').scrollTop=$('#chat').scrollHeight; }
+function askBot(text){ if(!text.trim())return; addBubble(text,'user'); const lower=text.toLowerCase(); let ans='I only know a few secret things 😄 Try asking why he built this, what he loves about you, his birthday wish, or something cute.'; for(const a of CONFIG.assistantAnswers){ if(a.keys.some(k=>lower.includes(k))){ans=a.answer;break;} } setTimeout(()=>addBubble(ans,'bot'),350); }
+$('#sendChat').onclick=()=>{ const i=$('#chatInput'); askBot(i.value); i.value=''; };
+$('#chatInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#sendChat').click(); });
+
+function loadFinalPhoto(){ const img=$('#finalPhoto'), ph=$('#finalPlaceholder'); img.src=CONFIG.finalPhoto; img.onload=()=>ph.style.display='none'; img.onerror=()=>img.style.display='none'; }
+
+let typingTimer=null;
+function typeLetter(){
+  clearInterval(typingTimer); const box=$('#letterText'); box.textContent=''; let i=0;
+  typingTimer=setInterval(()=>{ box.textContent+=CONFIG.finalLetter[i]||''; i++; if(i>=CONFIG.finalLetter.length) clearInterval(typingTimer); }, 22);
+}
+$('#skipAudio').onclick=()=>{ goTo('letterSection'); setTimeout(typeLetter,500); };
+$('#voiceAudio').addEventListener('ended',()=>{ goTo('letterSection'); setTimeout(typeLetter,500); });
+$('#replayLetter').onclick=()=>{ goTo('letterSection'); setTimeout(typeLetter,450); };
+$('#finalConfetti').onclick=()=>{ confettiBurst(); miniHearts(30); };
+
+function bootSequence(){
+  showScreen('boot'); const lines=[
+    `> initializing birthday_surprise.exe`,
+    `> loading memories...`,
+    `> checking favorite person...`,
+    `> match found: ${CONFIG.herName} ❤️`,
+    `> preparing smiles...`,
+    `> surprise ready.`
+  ];
+  const terminal=$('#terminal'); terminal.innerHTML=''; $('#bootProgress').style.width='0%';
+  let i=0; const timer=setInterval(()=>{
+    const d=document.createElement('div'); d.className='line'; d.style.animationDelay='0s'; d.textContent=lines[i]; terminal.appendChild(d);
+    $('#bootProgress').style.width=((i+1)/lines.length*100)+'%'; i++;
+    if(i>=lines.length){ clearInterval(timer); setTimeout(()=>{ showScreen('main'); confettiBurst(); miniHearts(18); saveProgress('main'); },850); }
+  },560);
+}
+$('#beginBtn').onclick=bootSequence;
+
+function saveProgress(screen='main'){
+  if(!CONFIG.saveProgress)return;
+  localStorage.setItem('birthdaySurpriseState',JSON.stringify({screen,quizIndex:state.quizIndex,quizScore:state.quizScore,unlocked:state.unlocked}));
+}
+function restoreProgress(){
+  if(!CONFIG.saveProgress)return;
+  try{ const s=JSON.parse(localStorage.getItem('birthdaySurpriseState')); if(!s)return; state.quizIndex=Math.min(s.quizIndex||0,CONFIG.quiz.length-1); state.quizScore=s.quizScore||0; state.unlocked=!!s.unlocked; if(s.screen==='main'){ showScreen('main'); renderQuiz(); if(state.unlocked) unlockFinal(); } }catch(e){}
+}
+$('#restartBtn').onclick=()=>{ if(confirm('Restart the surprise from the beginning?')){ localStorage.removeItem('birthdaySurpriseState'); location.reload(); } };
+
+function miniHearts(count=12){
+  for(let i=0;i<count;i++) setTimeout(()=>{
+    const h=document.createElement('div'); h.className='floating-heart'; h.textContent=Math.random()>.35?'❤️':'💗'; h.style.left=(5+Math.random()*90)+'vw'; h.style.fontSize=(14+Math.random()*22)+'px'; h.style.animationDuration=(3+Math.random()*3)+'s'; document.body.appendChild(h); setTimeout(()=>h.remove(),6500);
+  },i*80);
+}
+
+function confettiBurst(){
+  const canvas=$('#confetti'),ctx=canvas.getContext('2d'); const dpr=Math.max(1,devicePixelRatio||1); canvas.width=innerWidth*dpr; canvas.height=innerHeight*dpr; canvas.style.width=innerWidth+'px'; canvas.style.height=innerHeight+'px'; ctx.scale(dpr,dpr);
+  const pieces=Array.from({length:120},()=>({x:innerWidth/2,y:innerHeight*.25,vx:(Math.random()-.5)*10,vy:Math.random()*-9-3,g:.18+Math.random()*.12,r:3+Math.random()*5,a:1,rot:Math.random()*6}));
+  const colors=['#ff4f87','#ffd48a','#ffffff','#ff9fba','#d879ff']; let frame=0;
+  (function draw(){ctx.clearRect(0,0,innerWidth,innerHeight); pieces.forEach((p,i)=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=.12;p.a-=.006;ctx.save();ctx.globalAlpha=Math.max(0,p.a);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=colors[i%colors.length];ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();}); frame++; if(frame<180) requestAnimationFrame(draw); else ctx.clearRect(0,0,innerWidth,innerHeight);})();
+}
+
+function escapeHTML(v){ return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+
+applyConfig();
+restoreProgress();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+</script>
+</body>
+</html>
